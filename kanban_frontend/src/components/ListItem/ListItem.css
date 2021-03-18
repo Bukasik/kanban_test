@@ -1,0 +1,10 @@
+.card_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  height: 50px;
+  margin: 8px 0;
+}
