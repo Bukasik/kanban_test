@@ -19,5 +19,4 @@ test:
 production:
   <<: *default
   database: kanban_production
-  username: kanban_backend
   password: <%= ENV['KANBAN_BDATABASE_PASSWORD'] %>
