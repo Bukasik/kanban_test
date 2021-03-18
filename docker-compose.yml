@@ -18,8 +18,9 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - RAILS_WORKERS=5
-      - RAILS_MAX_THREADS=1
+      - RAILS_MAX_THREADS=5
       - RUBYOPT=-W:no-deprecated -W:no-experimental
+      - RAILS_ENV=production
   kanban_frontend:
     build: ./kanban_frontend
     volumes:
