@@ -1,11 +1,11 @@
 import apiClient from './apiClient';
 
 export const createBoard = (title) => apiClient
-  .post('http://localhost:8080/api/boards/', { title });
+  .post('http://143.198.66.168:8080/api/boards/', { title });
 
 export const cardAddedToList = (boardId, columnId, title) => {
   apiClient
-    .post(`http://localhost:8080/api/boards/${boardId}/cards`, { title, column_id: columnId })
+    .post(`http://143.198.66.168:8080/api/boards/${boardId}/cards`, { title, column_id: columnId })
     .then((response) => {
       console.log(response);
     });
@@ -13,7 +13,7 @@ export const cardAddedToList = (boardId, columnId, title) => {
 
 export const cardRemovedFromList = (boardId, card_id) => {
   apiClient
-    .delete(`http://localhost:8080/api/boards/${boardId}/cards/${card_id}`)
+    .delete(`http://143.198.66.168:8080/api/boards/${boardId}/cards/${card_id}`)
     .then((response) => {
       console.log(response);
     });
@@ -21,7 +21,7 @@ export const cardRemovedFromList = (boardId, card_id) => {
 
 export const listAddedToBoard = (boardId, title) => {
   apiClient
-    .post(`http://localhost:8080/api/boards/${boardId}/columns`, { title })
+    .post(`http://143.198.66.168:8080/api/boards/${boardId}/columns`, { title })
     .then((response) => {
       console.log(response);
     });
@@ -29,7 +29,7 @@ export const listAddedToBoard = (boardId, title) => {
 
 export const listRemovedFromBoard = (boardId, columnId) => {
   apiClient
-    .delete(`http://localhost:8080/api/boards/${boardId}/columns/${columnId}`)
+    .delete(`http://143.198.66.168:8080/api/boards/${boardId}/columns/${columnId}`)
     .then((response) => {
       console.log(response);
     });
@@ -37,13 +37,13 @@ export const listRemovedFromBoard = (boardId, columnId) => {
 
 export const cardUpdatedFromList = (boardId, columnId, card_id, title) => {
   apiClient
-    .put(`http://localhost:8080/api/boards/${boardId}/cards/${card_id}`, { title, column_id: columnId })
+    .put(`http://143.198.66.168:8080/api/boards/${boardId}/cards/${card_id}`, { title, column_id: columnId })
     .then((response) => {
       console.log(response);
     });
 };
 
 export const fetchBoard = (boardId) => Promise.all([
-  apiClient.get(`http://localhost:8080/api/boards/${boardId}`),
-  apiClient.get(`http://localhost:8080/api/boards/${boardId}/cards`),
+  apiClient.get(`http://143.198.66.168:8080/api/boards/${boardId}`),
+  apiClient.get(`http://143.198.66.168:8080/api/boards/${boardId}/cards`),
 ]);
