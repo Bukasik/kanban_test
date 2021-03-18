@@ -3,6 +3,12 @@ import { camelize, decamelize } from '../utils/keysConverter';
 
 const client = axios.create();
 
+// const headers = {
+//   'Access-Control-Allow-Origin': '*',
+//   'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+//   'Access-Control-Allow-Headers', 'Authorization,Accept-Language,Connection,Content-Type,Content-Length,Host,Origin,User-Agent'
+// }
+
 const apiClient = {
   async get(url) {
     const response = await client.get(url);

@@ -1,5 +1,9 @@
 import apiClient from './apiClient';
 
+// const headers = {
+//   'Content-Type': 'text/plain'
+// };
+
 export const createBoard = (title) => apiClient
   .post('http://143.198.66.168:8080/api/boards/', { title });
 
