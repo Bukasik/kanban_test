@@ -1,0 +1,40 @@
+version: '3'
+services:
+  kanban_backend:
+    build: ./kanban_backend
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 8080 -b '0.0.0.0'"
+    volumes:
+      - bundle_cache:/usr/local/bundle
+      - ./kanban_backend:/kanban_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_POOL=5
+      - POSTGRES_DATABASE=kanban_development
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - RAILS_WORKERS=5
+      - RAILS_MAX_THREADS=1
+      - RUBYOPT=-W:no-deprecated -W:no-experimental
+  kanban_frontend:
+    build: ./kanban_frontend
+    volumes:
+      - ./kanban_frontend:/kanban_frontend
+      - /kanban_frontend/node_modules
+    ports:
+      - "80:80"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+  
+volumes:
+  ? bundle_cache
