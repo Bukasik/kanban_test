@@ -1,0 +1,12 @@
+card1:
+  title: "refactor"
+  column: backlog
+card2:
+  title: "learn React/RoR"
+  column: in_progress
+card3:
+  title: "my test homework"
+  column: in_test
+card4:
+  title: "create rails app"
+  column: done

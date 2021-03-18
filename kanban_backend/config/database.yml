@@ -1,0 +1,24 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV['DATABASE_POOL'] || 6 %>
+  host: db
+  port: 5432
+  password: password
+  username: postgres
+
+development:
+  <<: *default
+  database: kanban_development
+
+test:
+  <<: *default
+  database: kanban_test
+
+production:
+  <<: *default
+  database: kanban_production
+  username: kanban_backend
+  password: <%= ENV['KANBAN_BDATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

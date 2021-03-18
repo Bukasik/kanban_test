@@ -1,0 +1,12 @@
+backlog:
+  title: "Backlog"
+  board: test_board
+in_progress:
+  title: "In progress"
+  board: test_board
+in_test:
+  title: "In test"
+  board: test_board
+done:
+  title: "Done"
+  board: test_board
