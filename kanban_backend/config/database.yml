@@ -21,4 +21,3 @@ production:
   database: kanban_production
   username: kanban_backend
   password: <%= ENV['KANBAN_BDATABASE_PASSWORD'] %>
-  url: <%= ENV['DATABASE_URL'] %>

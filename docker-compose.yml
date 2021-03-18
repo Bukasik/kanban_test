@@ -12,7 +12,7 @@ services:
       - db
     environment:
       - POSTGRES_POOL=5
-      - POSTGRES_DATABASE=kanban_development
+      - POSTGRES_DATABASE=kanban_production
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_HOST=db
