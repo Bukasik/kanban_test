@@ -2,11 +2,10 @@
 
 module Api
   class BoardsController < ApplicationController
-    def show
-      columns = Board.find(params[:id]).columns
-      render json: columns, each_serializer: ColumnSerializer
-      # render json: board, serializer: BoardSerializer
-    end
+    # def show
+    # #   columns = Board.find(params[:id]).columns
+    # #   render json: columns, each_serializer: ColumnSerializer
+    # # end
 
     def create
       board = Board.new(board_params)

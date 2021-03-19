@@ -2,8 +2,6 @@
 
 module Api
   class ColumnsController < ApplicationController
-    # before_action :set_board
-    # before_action :set_board_column, only: %i[show destroy]
 
     def index
       columns = Board.find(params[:board_id]).columns

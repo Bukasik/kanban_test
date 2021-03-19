@@ -24,7 +24,7 @@ const ItemForm = (props) => {
         value={label}
         required
       />
-      <button type="button" className="btn btn-outline-secondary">Add</button>
+      <button type="submit" className="btn btn-outline-secondary">Add</button>
     </form>
   );
 };
