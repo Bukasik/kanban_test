@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BoardChannel < ApplicationCable::Channel
   # def subscribed
   #   stream_from "board_#{params[:board]}"

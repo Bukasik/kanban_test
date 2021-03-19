@@ -2,9 +2,6 @@
 
 module Api
   class CardsController < ApplicationController
-    # before_action :set_column
-    # before_action :set_column_card, only: %i[show update destroy]
-
     def index
       board = Board.find(params[:board_id])
       cards = Card.where(column_id: board.column_ids)
@@ -17,7 +14,7 @@ module Api
       board = Board.find(params[:board_id])
       if card.save
         render json: card, status: :created
-        BoardChannel.broadcast_to board, {card: card, type: "ADD_CARD"}
+        BoardChannel.broadcast_to board, { card: card, type: "ADD_CARD" }
       else
         render json: { errors: card.errors }, status: :unprocessable_entity
       end
@@ -28,33 +25,24 @@ module Api
       board = Board.find(params[:board_id])
       if card.update(column_id: params[:column_id])
         card.reload
-        BoardChannel.broadcast_to board, {card: card, type: "UPDATE_CARD"}
+        BoardChannel.broadcast_to board, { card: card, type: "UPDATE_CARD" }
         render json: card
       end
-      # head :no_content
     end
 
     def destroy
       card = Card.find(params[:id])
       board = Board.find(params[:board_id])
       if card.destroy
-        BoardChannel.broadcast_to board, {card: card, type: "DELETE_CARD"}
+        BoardChannel.broadcast_to board, { card: card, type: "DELETE_CARD" }
         head :no_content
       end
     end
 
     private
 
-    def card_params
-      params.require(:card).permit(:title, :column_id)
-    end
-
-    def set_column
-      @column = Column.find(params[:column_id])
-    end
-
-    def set_column_card
-      @card = @column.cards.find_by!(id: params[:id]) if @column
-    end
+      def card_params
+        params.require(:card).permit(:title, :column_id)
+      end
   end
 end

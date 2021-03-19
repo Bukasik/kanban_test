@@ -6863,3 +6863,600 @@ INSERT INTO "columns" ("id", "board_id", "title", "created_at", "updated_at") VA
   [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
 [ActionCable] Broadcasting to board:Z2lkOi8va2FuYmFuLWJhY2tlbmQvQm9hcmQvNTIxNTI5OTUtY2I2ZS00MDA0LWE5YWUtMTNjYjQ4OGU1YTRm: {:type=>"addItemColumn", :column=>{:id=>1, :title=>"Тестовая колонка"}}
   [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (94.0ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.6ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 08:39:55.201052"], ["updated_at", "2021-03-19 08:39:55.201052"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.5ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.5ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.2ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "cb6e5a82-dd3d-4317-b764-8bf79b95433d"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.6ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (11.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (61.6ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:08:58.369126"], ["updated_at", "2021-03-19 11:08:58.369126"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.6ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.6ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.2ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.2ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "23fc6d87-72fc-4619-82db-2ed222afba6b"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.5ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.4ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (81.6ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (5.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:18:01.178721"], ["updated_at", "2021-03-19 11:18:01.178721"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.6ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.6ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.2ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "2a5d6265-6fb9-4a89-95ee-c5eeeaf977bc"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.5ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.2ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.2ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.2ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (11.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (61.8ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.1ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:18:49.869264"], ["updated_at", "2021-03-19 11:18:49.869264"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.6ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.5ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.2ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "e2eb8e1e-68a5-49fd-902e-e4e2d80a2e53"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.5ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (11.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (73.1ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (5.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:24:01.927122"], ["updated_at", "2021-03-19 11:24:01.927122"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.7ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.6ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.4ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.7ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "09ec3696-fc3a-475e-9936-3efc9c46cc24"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.4ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.5ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.4ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (10.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (71.7ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (5.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:25:32.601894"], ["updated_at", "2021-03-19 11:25:32.601894"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.7ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.6ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.4ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "f6f28d97-a4bb-4518-9ea5-b53b3d2106fe"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.4ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.6ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.4ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (10.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "kanban_test"[0m
+  [1m[35m (72.6ms)[0m  [1m[35mCREATE DATABASE "kanban_test" ENCODING = 'unicode'[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4289182441952490915)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBoards (20210213112532)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "boards" ("id" uuid DEFAULT gen_random_uuid() NOT NULL PRIMARY KEY, "title" character varying NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213112532"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCards (20210213114106)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "cards" ("id" bigserial primary key, "column_id" bigint, "title" character varying NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_cards_on_column_id" ON "cards" ("column_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114106"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateColumns (20210213114342)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "columns" ("id" bigserial primary key, "board_id" uuid, "title" character varying NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_columns_on_board_id" ON "columns" ("board_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20210213114342"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-03-19 11:33:45.590744"], ["updated_at", "2021-03-19 11:33:45.590744"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(4289182441952490915)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Create (0.5ms)[0m  [1m[32mINSERT INTO "boards" ("title") VALUES ($1) RETURNING "id"[0m  [["title", "Test board"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.4ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.5ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["title", "Test column 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["title", "Test column 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mBoard Load (0.3ms)[0m  [1m[34mSELECT "boards".* FROM "boards" WHERE "boards"."id" = $1 LIMIT $2[0m  [["id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["LIMIT", 1]]
+  [1m[36mColumn Create (0.3ms)[0m  [1m[32mINSERT INTO "columns" ("board_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["board_id", "99c82547-4a3c-4ee0-9d66-c948b578be69"], ["title", "Test column 3"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.6ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 1], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.3ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 2], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 1"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 2"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mColumn Load (0.2ms)[0m  [1m[34mSELECT "columns".* FROM "columns" WHERE "columns"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mCard Create (0.3ms)[0m  [1m[32mINSERT INTO "cards" ("column_id", "title") VALUES ($1, $2) RETURNING "id"[0m  [["column_id", 3], ["title", "Test card 3"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
