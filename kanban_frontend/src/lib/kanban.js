@@ -1,6 +1,6 @@
 import apiClient from './apiClient';
 
-const API_URL = "http://localhost:8080/api"
+const API_URL = "http://143.198.66.168:8080/api"
 
 export const createBoard = (title) => apiClient
   .post(`${API_URL}/boards/`, { title });
