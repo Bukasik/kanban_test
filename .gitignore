@@ -1,0 +1,19 @@
+# Ignore bundler config.
+kanban_backend/.bundle
+
+# Ignore all logfiles and tempfiles.
+kanban_backend/log/*
+kanban_backend/tmp/*
+
+# Ignore uploaded files in development.
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+kanban_backend/config/master.key
+kanban_backend/node_modules
+
+# Ignore IDEs
+.idea
+.vscode
+.DS_Store
+*.log
